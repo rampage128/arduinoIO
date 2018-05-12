@@ -1,5 +1,5 @@
-#ifndef OUTPUT_H
-#define OUTPUT_H
+#ifndef INTERVALOUTPUT_H
+#define INTERVALOUTPUT_H
 
 #include "Output.h"
 
