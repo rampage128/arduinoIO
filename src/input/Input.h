@@ -17,22 +17,24 @@ class AnalogInput : public Input {
       this->debounceDuration = debounceDuration;
     }
     virtual boolean getState() { 
-      boolean newPinValue = analogRead(this->pinNumber);
-      if (newPinValue != this->desiredPinValue) {
+      int pinValue = analogRead(this->pinNumber);
+      boolean newState = pinValue >= this->compareMin && pinValue <= this->compareMax;
+
+      if (newState != this->desiredState) {
         this->debounceTime = millis();
-        this->desiredPinValue = newPinValue;
+        this->desiredState = newState;
       }
-    
+
       if (millis() - this->debounceTime > this->debounceDuration) {
-        this->pinValue = this->desiredPinValue;
+        this->state = this->desiredState;
       }
-    
-      return this->pinValue >= this->compareMin && this->pinValue <= this->compareMax;
+
+      return this->state;
     }
   private:
     int pinNumber;
-    int pinValue;
-    int desiredPinValue;
+    boolean state;
+    boolean desiredState;
     int compareMin;
     int compareMax;
     unsigned int debounceDuration;
